@@ -69,10 +69,10 @@ struct ParPort *PPort= (struct ParPort*) 0x08001000;
 //mapping of outputs to port D
 #define MOTOR_DIRECTION 0x8000
 #define SWITCH_RESET 0x4000
-#define SEVENSEG_D  0x2000
 #define SEVENSEG_A 0x0100
 #define SEVENSEG_B 0x0800
 #define SEVENSEG_C 0x0400
+#define SEVENSEG_D  0x2000
 #define MOTOR_CONTROL 0x1000
 
 // mapping of Inputs to port E
