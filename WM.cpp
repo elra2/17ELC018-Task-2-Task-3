@@ -6,4 +6,7 @@ door::door(unsigned char map){
 }
 
 
-//MOTOR FUNCTIONS
+//BUZZER FUNCTIONS
+buzzer::buzzer(unsigned char map){
+	port_map = map
+}
