@@ -32,12 +32,21 @@ class GPIOs
 
 class door{
 	public:
-		door(unsigned char);
-		void opendoor();
-	  void closedoor();
+	door(unsigned char);
+	void opendoor();
+	void closedoor();
 	private:
-		unsigned char port_map;
-	  bool doorstatus;
+        unsigned char port_map;
+	bool doorstatus;
+};
+
+class buzzer {
+	public:
+	buzzer(unsigned char);
+	void soundbuzzer();
+	private:
+	unsigned char port_map
+	bool buzzerstatus;
 };
 
 //class motor{
@@ -49,7 +58,7 @@ class door{
 // pointer to port E
 extern GPIOs *GPIO_E;
 
-// define a pointer to the parallel port
+// define a pointer to the parallel port -- from lecure notes
 struct ParPort *PPort= (struct ParPort*) 0x08001000;
 
 
