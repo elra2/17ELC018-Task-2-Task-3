@@ -43,7 +43,7 @@ class door{
 class buzzer {
 	public:
 	buzzer(unsigned char);
-	void soundbuzzer();
+	bool soundbuzzer();
 	private:
 	unsigned char port_map
 	bool buzzerstatus;
