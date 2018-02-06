@@ -5,13 +5,12 @@ door::door(unsigned char map){
 	port_map = map;
 }
 
-bool door::dooropen(){
-	//open door command
-	doorstatus = 1;
-	return doorstatus;
-}
-
 //BUZZER FUNCTIONS
 buzzer::buzzer(unsigned char map){
-	port_map = map
+	port_map = map;
+}
+
+//PROGRAM SWITCHES FUNCTIONS
+programswitches::programswitches(){
+	port_map = map;
 }
