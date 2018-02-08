@@ -5,11 +5,10 @@
 #ifndef __WM_H
 #define __WM_H
 
-#include "stdint.h"
 #include "main.h"
 extern "C" {  // this is needed to make C++ and C work together
   #include "board_startup.h"   // you DON'T need to worry about the contents of this file
-//#include "STM.h"
+}
 
 /* 
   washing machine outputs
@@ -22,7 +21,6 @@ extern "C" {  // this is needed to make C++ and C work together
   PD13 7 segment display bit D
   PD14 reset switches
   PD15 motor direction
-
   washing machine inputs
   ----------------------
   PE8  programme select 1
@@ -57,20 +55,18 @@ extern "C" {  // this is needed to make C++ and C work together
 #define GPIO_E_IDR   (GPIO_E_BASE_ADDR + 0x10)
 #define GPIO_E_ODR   (GPIO_E_BASE_ADDR + 0x14)
 
-bool port;
-
 // pointers to port registers
-uint32_t *GPIO_C_Mode_Addr  = (uint32_t *) GPIO_C_MODE;
-uint32_t *GPIO_C_Speed_Addr = (uint32_t *) GPIO_C_SPEED;
-uint32_t *GPIO_C_Pull_Addr  = (uint32_t *) GPIO_C_PULL;
-uint16_t *GPIO_C_Idr_Addr   = (uint16_t *) GPIO_C_IDR;
-uint16_t *GPIO_C_Odr_Addr   = (uint16_t *) GPIO_C_ODR;
+__UINT32_TYPE__ *GPIO_C_Mode_Addr  = (__UINT32_TYPE__ *) GPIO_C_MODE;
+__UINT32_TYPE__ *GPIO_C_Speed_Addr = (__UINT32_TYPE__ *) GPIO_C_SPEED;
+__UINT32_TYPE__ *GPIO_C_Pull_Addr  = (__UINT32_TYPE__ *) GPIO_C_PULL;
+__UINT16_TYPE__ *GPIO_C_Idr_Addr   = (__UINT16_TYPE__ *) GPIO_C_IDR;
+__UINT16_TYPE__ *GPIO_C_Odr_Addr   = (__UINT16_TYPE__ *) GPIO_C_ODR;
 
-uint32_t *GPIO_D_Mode_Addr  = (uint32_t *) GPIO_D_MODE;
-uint32_t *GPIO_D_Speed_Addr = (uint32_t *) GPIO_D_SPEED;
-uint32_t *GPIO_D_Pull_Addr  = (uint32_t *) GPIO_D_PULL;
-uint16_t *GPIO_D_Idr_Addr   = (uint16_t *) GPIO_D_IDR;
-uint16_t *GPIO_D_Odr_Addr   = (uint16_t *) GPIO_D_ODR;
+__UINT32_TYPE__ *GPIO_D_Mode_Addr  = (__UINT32_TYPE__ *) GPIO_D_MODE;
+__UINT32_TYPE__ *GPIO_D_Speed_Addr = (__UINT32_TYPE__ *) GPIO_D_SPEED;
+__UINT32_TYPE__ *GPIO_D_Pull_Addr  = (__UINT32_TYPE__ *) GPIO_D_PULL;
+__UINT16_TYPE__ *GPIO_D_Idr_Addr   = (__UINT16_TYPE__ *) GPIO_D_IDR;
+__UINT16_TYPE__ *GPIO_D_Odr_Addr   = (__UINT16_TYPE__ *) GPIO_D_ODR;
 
 uint32_t *GPIO_E_Mode_Addr  = (uint32_t *) GPIO_E_MODE;
 uint32_t *GPIO_E_Speed_Addr = (uint32_t *) GPIO_E_SPEED;
@@ -91,6 +87,8 @@ uint32_t GPIO_D_Pull = 0xaaaaaaaa;  // 0b10101010101010101010101010101010  00 no
 // port E - set to input
 uint32_t GPIO_E_Mode = 0x00000000;  // 0b00000000000000000000000000000000  00 = input, 01 = output
 uint32_t GPIO_E_Pull = 0x55555555;    // 0b10101010101010101010101010101010  00 none, 01 = pull up, 10 pull down
+
+bool port;
 
 // define the structure of the ports and port access operations
 class GPIOs
@@ -114,6 +112,7 @@ class door{
 	public:
 	door(unsigned char);
 	bool GetDoorStatus();
+	void ReadDoorStatus();
 	private:
   unsigned char port_map;
 	bool doorstatus;
@@ -143,11 +142,13 @@ class Switches
 class motor
 {
 	public: 
-		motor(unsigned char);
+		motor(unsigned int);
+	void ReadMotorSpeed();
 	  bool GetMotorSpeed();
 	private:
+		unsigned int port_map;
 		
-}
+};
 
 
 //pointer to port C // (0x48000800)
@@ -160,4 +161,3 @@ extern GPIOs *GPIO_E;
 
 #endif /* __WM_H */
 }
-
