@@ -52,12 +52,7 @@ void Switches::Reset(){
 
 //MOTOR FUNCTIONS
 bool motor::GetMotorSpeed(){
-   port = (*GPIO_E_Idr_Addr) & 0x8000;
-	if (port) {
-				 *GPIO_E_Speed_Addr |= (uint16_t) 0x0100;
-	}
-	else {
-		*GPIO_E_Speed_Addr |= (uint16_t) 0x0100;
-	}
-	return GPIO_E_Speed_Addr;  //returning speed or motorspeed value?
+	port = (*GPIO_E_Idr_Addr) & 0x8000 ; // PE15 motor speed feedback
+
+	return GPIO_E_Idr_Addr;
 }
