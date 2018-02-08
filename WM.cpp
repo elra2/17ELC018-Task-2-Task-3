@@ -1,3 +1,13 @@
+/**
+  ******************************************************************************
+  * @file    WM.cpp
+  * @author  Group 4: Scott Archer, Rachel Asante, Zahckoh Mitchell Dos Santos
+  * @version 1
+  * @date    Due: 16 February 2018
+  * @brief   Group 4 - Real Time SW Engineering Module 2017-2018 Task 2
+  ******************************************************************************
+  */
+
 #include "WM.h"
 
 //DOOR FUNCTIONS
@@ -5,14 +15,18 @@ door::door(unsigned char map){
 	port_map = map;
 }
 
-bool door::GetDoorStatus(){
+void door::ReadDoorStatus(){
   port = (*GPIO_E_Idr_Addr) & port_map ;  // PE11 check if door open or closed
 	 if (port){
-		 doorstatus = 1;
+		 doorstatus = true;
 	 }
 	 else {
-		 doorstatus = 0;
+		 doorstatus = false;
 	 }
+}
+
+bool door::GetDoorStatus()
+{
 	return doorstatus;
 }
 
@@ -32,17 +46,20 @@ Switches::Switches(unsigned char map){
 	port_map = map;
 }
 
-bool Switches::GetSwitch(){
+void Switches::ReadSwitch(){
    port = (*GPIO_E_Idr_Addr) & port_map ;  //Program Switches, Accept, Cancel, Door Open/close
    if (port){
 		 *GPIO_D_Odr_Addr |= (uint16_t) 0x0100;
-		 switchvalue = 1;
+		 switchvalue = true;
 	 }
 	 else {
 		 *GPIO_D_Odr_Addr &= ~(uint16_t) 0x2D00;
-		 switchvalue = 0;
+		 switchvalue = false;
 	 }
-	return switchvalue;  //returning speed or switchvalue?
+}
+
+bool Switches::GetSwitch(){
+	return switchvalue;
 }
 
 void Switches::Reset(){
@@ -51,8 +68,9 @@ void Switches::Reset(){
 
 
 //MOTOR FUNCTIONS
-bool motor::GetMotorSpeed(){
+motor::motor(unsigned int map){
+ port_map = map;
+}
+void motor::ReadMotorSpeed(){
 	port = (*GPIO_E_Idr_Addr) & 0x8000 ; // PE15 motor speed feedback
-
-	return GPIO_E_Idr_Addr;
 }
