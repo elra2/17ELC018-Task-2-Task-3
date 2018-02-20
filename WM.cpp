@@ -7,28 +7,14 @@
   * @brief   Group 4 - Real Time SW Engineering Module 2017-2018 Task 2
   ******************************************************************************
   */
-
-#include "WM.h"
+	
+#include "PORTMAP.h"
 #include "STM.h"
+#include "WM.h"
+#include "stdint.h"
 
-	// pointers to port registers
-uint32_t *GPIO_C_Mode_Addr  = (uint32_t *) GPIO_C_MODE;
-uint32_t *GPIO_C_Speed_Addr = (uint32_t *) GPIO_C_SPEED;
-uint32_t *GPIO_C_Pull_Addr  = (uint32_t *) GPIO_C_PULL;
-uint16_t *GPIO_C_Idr_Addr   = (uint16_t *) GPIO_C_IDR;
-uint16_t *GPIO_C_Odr_Addr   = (uint16_t *) GPIO_C_ODR;
-
-uint32_t *GPIO_D_Mode_Addr  = (uint32_t *) GPIO_D_MODE;
-uint32_t *GPIO_D_Speed_Addr = (uint32_t *) GPIO_D_SPEED;
-uint32_t *GPIO_D_Pull_Addr  = (uint32_t *) GPIO_D_PULL;
-uint16_t *GPIO_D_Idr_Addr   = (uint16_t *) GPIO_D_IDR;
-uint16_t *GPIO_D_Odr_Addr   = (uint16_t *) GPIO_D_ODR;
-
-uint32_t *GPIO_E_Mode_Addr  = (uint32_t *) GPIO_E_MODE;
-uint32_t *GPIO_E_Speed_Addr = (uint32_t *) GPIO_E_SPEED;
-uint32_t *GPIO_E_Pull_Addr  = (uint32_t *) GPIO_E_PULL;
-uint16_t *GPIO_E_Idr_Addr   = (uint16_t *) GPIO_E_IDR;
-uint16_t *GPIO_E_Odr_Addr   = (uint16_t *) GPIO_E_ODR;
+// hold a bit value returned from a port
+bool port;
 
 //DOOR FUNCTIONS
 door::door(){
@@ -113,6 +99,9 @@ void motor::SetControlON(){
 	*GPIO_D_Odr_Addr |= (uint16_t) MOTOR_CONTROL; // PD12 motor control - on
 }
 
+timer::timer(){
+	
+}
 void timer::wait(unsigned int waittime){
 	time = waittime;
   HAL_Delay(time); //time in ms

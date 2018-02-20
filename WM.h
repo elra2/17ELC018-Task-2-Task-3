@@ -5,12 +5,6 @@
 #ifndef __WM_H
 #define __WM_H
 
-extern "C" {  // this is needed to make C++ and C work together
-  #include "board_startup.h"   // you DON'T need to worry about the contents of this file
-}
-
-// hold a bit value returned from a port
-bool port;
 
 class door{
 	public:
@@ -64,4 +58,3 @@ class timer
 };
 
 #endif /* __WM_H */
-
