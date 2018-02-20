@@ -9,6 +9,30 @@ extern "C" {  // this is needed to make C++ and C work together
   #include "board_startup.h"   // you DON'T need to worry about the contents of this file
 }
 
+// port base addresses
+#define GPIO_C_BASE_ADDR  0x40000000 + 0x08000000 + 0x00000800
+#define GPIO_D_BASE_ADDR  0x40000000 + 0x08000000 + 0x00000C00
+#define GPIO_E_BASE_ADDR  0x40000000 + 0x08000000 + 0x00001000
+
+// port register addresses
+#define GPIO_C_MODE  (GPIO_C_BASE_ADDR)
+#define GPIO_C_SPEED (GPIO_C_BASE_ADDR + 0x08)
+#define GPIO_C_PULL  (GPIO_C_BASE_ADDR + 0x0C)
+#define GPIO_C_IDR   (GPIO_C_BASE_ADDR + 0x10)
+#define GPIO_C_ODR   (GPIO_C_BASE_ADDR + 0x14)
+
+#define GPIO_D_MODE  (GPIO_D_BASE_ADDR)
+#define GPIO_D_SPEED (GPIO_D_BASE_ADDR + 0x08)
+#define GPIO_D_PULL  (GPIO_D_BASE_ADDR + 0x0C)
+#define GPIO_D_IDR   (GPIO_D_BASE_ADDR + 0x10)
+#define GPIO_D_ODR   (GPIO_D_BASE_ADDR + 0x14)
+
+#define GPIO_E_MODE  (GPIO_E_BASE_ADDR)
+#define GPIO_E_SPEED (GPIO_E_BASE_ADDR + 0x08)
+#define GPIO_E_PULL  (GPIO_E_BASE_ADDR + 0x0C)
+#define GPIO_E_IDR   (GPIO_E_BASE_ADDR + 0x10)
+#define GPIO_E_ODR   (GPIO_E_BASE_ADDR + 0x14)
+
 // hold a bit value returned from a port
 bool port;
 
@@ -49,31 +73,30 @@ class buzzer {
 	bool buzzerstatus;
 };
 
-class Switches
+class switches
 {
 	public:
-		Switches(unsigned char);
+		switches(unsigned short);
 		bool GetSwitch();
-	  void ReadSwitch();
 	  void Reset();
 	  void AcceptUserInput();
 	private:
-		unsigned char port_map;
+		unsigned short port_map;
 		bool switchvalue;
 };
 
 class motor
 {
 	public: 
-		motor(unsigned int);
-	 int GetMotorSpeed();
+	motor(unsigned int);
+	int GetMotorSpeed();
 	void SetControlOFF();
-		void SetControlON();
+	void SetControlON();
 	void SetDirectionCW();
-		void SetDirectionACW();
+	void SetDirectionACW();
 	bool GetControlStatus();
 	private:
-		unsigned int port_map;
+	unsigned int port_map;
 	int motorspeed;
 	int motordirection;
 	bool controlstatus;
@@ -85,7 +108,7 @@ class timer
 		timer();
 		void wait(unsigned int);
 	private:
-		int time;
+		unsigned int time;
 };
 
 //pointer to port C // (0x48000800)
@@ -97,4 +120,5 @@ extern GPIOs *GPIO_E;
 
 
 #endif /* __WM_H */
+
 
