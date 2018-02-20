@@ -11,7 +11,6 @@
 #include "WM.h"
 #include "STM.h"
 
-
 	// pointers to port registers
 uint32_t *GPIO_C_Mode_Addr  = (uint32_t *) GPIO_C_MODE;
 uint32_t *GPIO_C_Speed_Addr = (uint32_t *) GPIO_C_SPEED;
@@ -32,12 +31,11 @@ uint16_t *GPIO_E_Idr_Addr   = (uint16_t *) GPIO_E_IDR;
 uint16_t *GPIO_E_Odr_Addr   = (uint16_t *) GPIO_E_ODR;
 
 //DOOR FUNCTIONS
-door::door(unsigned char map){
-	port_map = map;
+door::door(){
 }
 
 void door::ReadDoorStatus(){
-  port = (*GPIO_E_Idr_Addr) & port_map ;  // PE11 check if door open or closed
+  port = (*GPIO_E_Idr_Addr) & DOOR ;  // PE11 check if door open or closed
 	 if (port){
 		 doorstatus = true;
 	 }
@@ -52,24 +50,21 @@ bool door::GetDoorStatus()
 }
 
 //BUZZER FUNCTIONS
-buzzer::buzzer(unsigned char map){
-	port_map = map;
+buzzer::buzzer(){
 }
 
 void buzzer::SetBuzzer(){
-  *GPIO_C_Odr_Addr ^= (uint16_t) port_map;   // toggle PC6 buzzer
+  *GPIO_C_Odr_Addr ^= (uint16_t) BUZZER;   // toggle PC6 buzzer
 	}
 
-//PROGRAM,ACCEPT,CANCEL,DOOR OPEN/CLOSE SWITCHES FUNCTIONS
-switches::switches(unsigned short map){
-	 unsigned short * port_map = &map;
+//PROGRAM, ACCEPT, CANCEL, DOOR OPEN/CLOSE SWITCHES FUNCTIONS
+switches::switches(){
 }
 
-
-bool switches::GetSwitch(){
-	   port = (*GPIO_E_Idr_Addr) & port_map ;  //Program Switches, Accept, Cancel, Door Open/close
+bool switches::GetSwitch(unsigned short port_map){  //address to be passed in to
+	 port = (*GPIO_E_Idr_Addr) & port_map ;
    if (port){
-		 *GPIO_D_Odr_Addr |= (uint16_t) 0x0100;
+		 *GPIO_D_Odr_Addr |= (uint16_t) SEVENSEG_A;
 		 switchvalue = true;
 	 }
 	 else {
@@ -80,21 +75,19 @@ bool switches::GetSwitch(){
 }
 
 void switches::Reset(){
-  *GPIO_D_Odr_Addr &= ~(uint16_t) port_map;  // PD14 RESET
+  *GPIO_D_Odr_Addr &= ~(uint16_t) SWITCH_RESET;  // PD14 RESET
 }
 
 void switches::AcceptUserInput(){
-	*GPIO_D_Odr_Addr |= (uint16_t) 0x4000; // PD14 HIGH accept switch input
+	*GPIO_D_Odr_Addr |= (uint16_t) SWITCH_RESET; // PD14 HIGH accept switch input
 }
 
 
 //MOTOR FUNCTIONS
-motor::motor(unsigned int map){
-	 unsigned int * port_map = &map;
+motor::motor(){
 }
-
 int motor::GetMotorSpeed(){
-		port = (*GPIO_E_Idr_Addr) & 0x8000 ; // PE15 motor speed feedback
+		port = (*GPIO_E_Idr_Addr) & MOTOR_SPEED ; // PE15 motor speed feedback
 	if (port){
 		motorspeed = 1; //change to actal motor speed
 	}
@@ -105,27 +98,23 @@ else {
 }
 
 void motor::SetDirectionCW(){
-	*GPIO_D_Odr_Addr &= ~(uint16_t) 0x8000; // PD15 motor direction - clockwise
+	*GPIO_D_Odr_Addr &= ~(uint16_t) MOTOR_DIRECTION; // PD15 motor direction - clockwise
 }
 
 void motor::SetDirectionACW(){
-	*GPIO_D_Odr_Addr |= (uint16_t) 0x8000; // PD15 motor direction - anticlockwise
+	*GPIO_D_Odr_Addr |= (uint16_t) MOTOR_DIRECTION; // PD15 motor direction - anticlockwise
 }
 
 void motor::SetControlOFF(){
-	*GPIO_D_Odr_Addr &= ~(uint16_t) 0x1000; // PD12 motor control - off
+	*GPIO_D_Odr_Addr &= ~(uint16_t) MOTOR_CONTROL; // PD12 motor control - off
 }
 
 void motor::SetControlON(){
-	*GPIO_D_Odr_Addr |= (uint16_t) 0x1000; // PD12 motor control - on
-}
-
-bool motor::GetControlStatus(){
-  return controlstatus;
+	*GPIO_D_Odr_Addr |= (uint16_t) MOTOR_CONTROL; // PD12 motor control - on
 }
 
 void timer::wait(unsigned int waittime){
 	time = waittime;
-  HAL_Delay(time); // 100ms delay
+  HAL_Delay(time); //time in ms
 }
 

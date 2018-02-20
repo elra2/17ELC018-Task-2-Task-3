@@ -31,63 +31,58 @@ int main(void)
   // STM32F3 Discovery Board initialization
   board_startup();
 	
-
+	door WMdoor;
+	buzzer WMbuzzer;
+	motor WMmotor;
+	timer WMtimer;
+	switches WMswitches;
 	
-Switches ACCEPTBUTTON(ACCEPT);
-Switches CANCELBUTTON(CANCEL);
-Switches PROGRAM_SEL1(PROGRAM_1);
-Switches PROGRAM_SEL2(PROGRAM_2);
-Switches PROGRAM_SEL3(PROGRAM_3);
-Switches ResetButton(SWITCH_RESET);
-buzzer WMBuzzer(BUZZER);
-motor WMmotorDIRECTION(MOTOR_DIRECTION);
-motor WMmotorCONTROL(MOTOR_CONTROL);
-door WMdoor(DOOR);
-timer WMtimer;
-
-  // Try out buzzer
-  WMBuzzer.SetBuzzer();
+	
+	/*  BUZZER TEST  */
+	WMbuzzer.SetBuzzer();
 	WMtimer.wait(1000);
-	WMBuzzer.SetBuzzer();
+	WMbuzzer.SetBuzzer();
 	WMtimer.wait(1000);
 	
-	//Test Accept Button Response
-	if (ACCEPTBUTTON.GetSwitch() == true){
-		//Output 7SEG A for 1 second
-		//ON
-		WMtimer.wait(1000);  
-	}
-		//Test Cancel Button Response
-	if (CANCELBUTTON.GetSwitch() == true){
-		//Output 7SEG B
-	}
-		//Test Program switch 1 Button Response
-	if (PROGRAM_SEL1.GetSwitch() == true){
-		//Output 7SEG C
-	}
-			//Test program switch 2 Button Response
-	if (PROGRAM_SEL2.GetSwitch() == true){
-		//Output 7SEG D
-	}
-		//Test Reset Button Response
-	if (ResetButton.GetSwitch() == true){
-		//reset all to zero
-	}
-	
-		//Test door and motor direction
+	/* DOOR TEST WITH MOTOR */
 	if (WMdoor.GetDoorStatus() == true){
-		WMmotorCONTROL.SetControlON();
-		WMmotorDIRECTION.SetDirectionCW();
-		WMtimer.wait(3000);
-		WMmotorDIRECTION.SetDirectionACW();
-		WMtimer.wait(3000);
-		WMmotorDIRECTION.SetDirectionCW();
-		WMtimer.wait(3000);
-		WMmotorDIRECTION.SetDirectionACW();
+		WMmotor.SetControlON();
+		WMmotor.SetDirectionACW();
+		WMtimer.wait(2000);
+		WMmotor.SetDirectionACW();
+		WMtimer.wait(2000);
+		WMmotor.SetDirectionACW();
+		WMtimer.wait(2000);
 	}
-	else if (WMdoor.GetDoorStatus() == false){
-		WMmotorCONTROL.SetControlOFF();
+	if (WMdoor.GetDoorStatus() == false){
+		WMmotor.SetControlOFF();
+		WMswitches.Reset();
 	}
-}
 
+	/* SWITCHES WITH 7SEG */
+	while (WMswitches.GetSwitch(PROGRAM_1) ==  true){
+		//Setbuzzer
+		
+	}
+	while (WMswitches.GetSwitch(PROGRAM_2) ==  true){
+		//setbuzzer
+		
+	}
+	while (WMswitches.GetSwitch(PROGRAM_3) ==  true){
+		//setbuzzer
+		
+	}
+	while (WMswitches.GetSwitch(ACCEPT) ==  true){
+		//setbuzzer
+		
+	}
+  if (WMswitches.GetSwitch(CANCEL) ==  true){
+		//setbuzzer
+	}
+	
+
+
+	
+
+}
 
